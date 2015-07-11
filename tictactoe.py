@@ -29,11 +29,11 @@ def vertical_line(x):
 
 class Cursor:
     def __init__(self,canvas,color):
-        self.id = canvas.create_rectangle(20,20,40,40, fill=color)
+        self.id = canvas.create_rectangle(20,20,40,40, fill=color, outline='white')
         self.row = 2
         self.column = 2
-        self.width = 20
-        self.height = 20
+        self.width = segment_length-2
+        self.height = segment_length-2
         self.canvas = canvas
         self.canvas.bind_all('<KeyPress-Left>',self.move_left)
         self.canvas.bind_all('<KeyPress-Right>',self.move_right)
@@ -42,8 +42,8 @@ class Cursor:
         self.draw()
 
     def draw(self):
-        x = x1+(self.column-1)*segment_length+(0.5*segment_length)-(self.width/2)
-        y = y1+(self.row-1)*segment_length+(0.5*segment_length)-(self.height/2)
+        x = self.get_x()
+        y = self.get_y()
         self.canvas.coords(self.id,x,y,x+self.width,y+self.height)
         tk.update()
 
@@ -70,7 +70,27 @@ class Cursor:
             return
         self.column = self.column+1
         self.draw()
+
+    def get_x(self):
+        x = x1+(self.column-1)*segment_length+(0.5*segment_length)-(self.width/2)
+        return x
+
+    def get_y(self):
+        y = y1+(self.row-1)*segment_length+(0.5*segment_length)-(self.height/2)
+        return y
+
+class XO:
+    def __init__ (self,canvas,cursor,color,character):
+        x = cursor.get_x()+cursor.width/2
+        y = cursor.get_y()+cursor.height/2
+        canvas.create_text(x,y,text=character,fill=color,font=('Courier',50))
         
+        
+def button1_pressed(evt):
+    X = XO(canvas,cursor,'red','X')
+
+def button2_pressed(evt):
+    O = XO(canvas,cursor,'blue','O')
 
 x1,x2 = get_x1_x2()
 y1,y2 = get_y1_y2()
@@ -81,4 +101,8 @@ vertical_line(x1+segment_length)
 vertical_line(x1+segment_length*2)
 
 cursor = Cursor(canvas,'white')
+canvas.bind_all('<KeyPress-X>',button1_pressed)
+canvas.bind_all('<KeyPress-x>',button1_pressed)
+canvas.bind_all('<KeyPress-O>',button2_pressed)
+canvas.bind_all('<KeyPress-o>',button2_pressed)
 
