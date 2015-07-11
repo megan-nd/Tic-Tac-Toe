@@ -2,12 +2,12 @@ from tkinter import *
 tk=Tk()
 tk.title = ("Tic Tac Toe")
 tk.resizable(0,0)
-canvas = Canvas(tk,width=500,height=500,bd=0,highlightthickness=0)
-canvas.pack()
-
 line_length = 300
 canvas_width = 500
 canvas_height = 500
+canvas = Canvas(tk,width=canvas_width,height=canvas_height,bd=0,highlightthickness=0)
+canvas.pack()
+
 
 def get_x1_x2(canvas_width,line_length):
     x1 = canvas_width/2-line_length/2
