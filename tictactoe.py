@@ -83,6 +83,7 @@ class XO:
     def __init__ (self,canvas,cursor,color,character):
         x = cursor.get_x()+cursor.width/2
         y = cursor.get_y()+cursor.height/2
+        self.character=character
         canvas.create_text(x,y,text=character,fill=color,font=('Courier',60))        
         
 def button1_pressed(evt):
